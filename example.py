@@ -5,7 +5,7 @@ from ThreeDEngine import options as opt, draw
 
 
 win = pygame.display.set_mode([int(x) for x in opt.window_size.to_tuple()])
-pygame.display.set_caption("3D Niggas")
+pygame.display.set_caption("3D")
 
 x = 400
 

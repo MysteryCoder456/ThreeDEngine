@@ -1,9 +1,9 @@
 import pygame
 from glm import vec2, vec3
-from ThreeDEngine.options import *
+from ThreeDEngine.options import Options
 from ThreeDEngine.camera import Camera
 
-def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline: bool):
+def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline = False):
     """Draw a cube.
 
     Arguments:
@@ -11,7 +11,7 @@ def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline: bool):
         size {vec3} -- size of cube
     """
 
-    offset = vec2(Camera.pos.x + window_size.x / 2, Camera.pos.y + window_size.y / 2)
+    offset = vec2(Camera.pos.x + Options.window_size.x / 2, Camera.pos.y + Options.window_size.y / 2)
     fov = Camera.fov
     size.z /= 10
 
@@ -32,13 +32,16 @@ def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline: bool):
     right_face = (proj2, proj4, proj8, proj6)
     back_face = (proj5, proj6, proj8, proj7)
 
+    sc = Options.stroke_color
+    sw = round(Options.stroke_width / pos.z * fov)
     if outline:
-        pygame.draw.polygon(surface, stroke_color, back_face, stroke_width)
-        pygame.draw.polygon(surface, stroke_color, left_face, stroke_width)
-        pygame.draw.polygon(surface, stroke_color, right_face, stroke_width)
-        pygame.draw.polygon(surface, stroke_color, front_face, stroke_width)
+        pygame.draw.polygon(surface, sc, back_face, sw)
+        pygame.draw.polygon(surface, sc, left_face, sw)
+        pygame.draw.polygon(surface, sc, right_face, sw)
+        pygame.draw.polygon(surface, sc, front_face, sw)
     else:
-        pygame.draw.polygon(surface, stroke_color, back_face)
-        pygame.draw.polygon(surface, stroke_color, left_face)
-        pygame.draw.polygon(surface, stroke_color, right_face)
-        pygame.draw.polygon(surface, stroke_color, front_face)
+        # TODO: Complete this code
+        pygame.draw.polygon(surface, sc, back_face)
+        pygame.draw.polygon(surface, sc, left_face)
+        pygame.draw.polygon(surface, sc, right_face)
+        pygame.draw.polygon(surface, sc, front_face)

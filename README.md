@@ -1,4 +1,4 @@
-# 3DEngine
+# ThreeDEngine
 A homemade 3D rendering engine.
 
 ## Build Status

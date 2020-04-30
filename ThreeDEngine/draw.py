@@ -1,9 +1,10 @@
 import pygame
-from glm import vec2, vec3
+from glm import vec3
 from ThreeDEngine.options import Options
 from ThreeDEngine.camera import Camera
+from ThreeDEngine.face import Face
 
-def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline = False):
+def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline=False):
     """Draw a cube.
 
     Arguments:
@@ -11,37 +12,31 @@ def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline = False):
         size {vec3} -- size of cube
     """
 
-    offset = vec2(Camera.pos.x + Options.window_size.x / 2, Camera.pos.y + Options.window_size.y / 2)
-    fov = Camera.fov
     size.z /= 10
 
+    # Get postion of each vertex
     # Front vertices
-    proj1 = vec2(fov * pos.x / pos.z, fov * pos.y / pos.z) + offset # top left
-    proj2 = vec2(fov * (pos.x + size.x) / pos.z, fov * pos.y / pos.z) + offset # top right
-    proj3 = vec2(fov * pos.x / pos.z, fov * (pos.y + size.y) / pos.z) + offset # bottom left
-    proj4 = vec2(fov * (pos.x + size.x) / pos.z, fov * (pos.y + size.y) / pos.z) + offset # bottom right
-    
+    proj1 = vec3(pos.x, pos.y, pos.z) # top left
+    proj2 = vec3((pos.x + size.x), pos.y, pos.z) # top right
+    proj3 = vec3(pos.x, (pos.y + size.y), pos.z) # bottom left
+    proj4 = vec3((pos.x + size.x), (pos.y + size.y), pos.z) # bottom right
     # Back vertices
-    proj5 = vec2(fov * pos.x / (pos.z + size.z), fov * pos.y / (pos.z + size.z)) + offset # top left
-    proj6 = vec2(fov * (pos.x + size.x) / (pos.z + size.z), fov * pos.y / (pos.z + size.z)) + offset # top right
-    proj7 = vec2(fov * pos.x / (pos.z + size.z), fov * (pos.y + size.y) / (pos.z + size.z)) + offset # bottom left
-    proj8 = vec2(fov * (pos.x + size.x) / (pos.z + size.z), fov * (pos.y + size.y) / (pos.z + size.z)) + offset # bottom right
+    proj5 = vec3(pos.x, pos.y, (pos.z + size.z)) # top left
+    proj6 = vec3((pos.x + size.x), pos.y, (pos.z + size.z)) # top right
+    proj7 = vec3(pos.x, (pos.y + size.y), (pos.z + size.z)) # bottom left
+    proj8 = vec3((pos.x + size.x), (pos.y + size.y), (pos.z + size.z))  # bottom right
     
-    front_face = (proj1, proj2, proj4, proj3)
-    left_face = (proj1, proj3, proj7, proj5)
-    right_face = (proj2, proj4, proj8, proj6)
-    back_face = (proj5, proj6, proj8, proj7)
+    # Generate faces from vertices
+    front_face = Face((proj1, proj2, proj4, proj3))
+    left_face = Face((proj1, proj3, proj7, proj5))
+    right_face = Face((proj2, proj4, proj8, proj6))
+    back_face = Face((proj5, proj6, proj8, proj7))
+    top_face = Face((proj1, proj2, proj6, proj5))
+    bottom_face = Face((proj3, proj4, proj8, proj7))
 
-    sc = Options.stroke_color
-    sw = round(Options.stroke_width / pos.z * fov)
-    if outline:
-        pygame.draw.polygon(surface, sc, back_face, sw)
-        pygame.draw.polygon(surface, sc, left_face, sw)
-        pygame.draw.polygon(surface, sc, right_face, sw)
-        pygame.draw.polygon(surface, sc, front_face, sw)
-    else:
-        # TODO: Complete this code
-        pygame.draw.polygon(surface, sc, back_face)
-        pygame.draw.polygon(surface, sc, left_face)
-        pygame.draw.polygon(surface, sc, right_face)
-        pygame.draw.polygon(surface, sc, front_face)
+    # Sort faces in list based on distance from camera revserse order
+    faces = [front_face, left_face, right_face, back_face, top_face, bottom_face]
+    faces.sort(key=lambda face: face.get_center_pos()[1], reverse=True)
+
+    for face in faces:
+        face.render(surface, outline)

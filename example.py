@@ -8,14 +8,14 @@ from ThreeDEngine import draw
 win = pygame.display.set_mode([int(x) for x in Options.window_size.to_tuple()])
 pygame.display.set_caption("3D")
 
-x = 400
+x = 500
 
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-    x -= 2
+    x -= 4
 
     win.fill(Options.background_color)
 
@@ -24,6 +24,6 @@ while True:
     draw.cube(win, vec3(-1000, -700, 300), vec3(300, 300, 300), True)
 
     Options.stroke_color = (255, 255, 255)
-    draw.cube(win, vec3(x, -150, 100), vec3(300, 300, 300), True)
+    draw.cube(win, vec3(x, -500, 100), vec3(300, 300, 1200))
 
     pygame.display.update()

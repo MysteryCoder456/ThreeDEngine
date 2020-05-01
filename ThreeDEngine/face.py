@@ -56,7 +56,7 @@ class Face:
 
     def render(self, surface, outline=False):
         projections = self.get_projected_vertices()
-        if len(projections) > 1:
+        if len(projections) > 2:
             if outline:
                 polygon(surface, Options.stroke_color, projections, Options.stroke_width)
             else:

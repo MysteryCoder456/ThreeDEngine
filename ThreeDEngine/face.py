@@ -8,7 +8,7 @@ from glm import vec2
 
 class Face:
     """
-    Class for making a 3D surface or face.
+    Class for making your own 3D surfaces or faces of 3D shapes.
 
     Arguments:
         vertices {list/tuple} -- list or tuple of the vertices of the face

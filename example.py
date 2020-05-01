@@ -26,7 +26,7 @@ while True:
 
     Options.stroke_width = 1
     Options.stroke_color = (255, 0, 0)
-    draw.cube(win, vec3(-150 + -500, -150, 500), vec3(300, 300, 300), True)
+    draw.cube(win, vec3(-150 + -500, 250, 500), vec3(300, 500, 300), True)
 
     Options.stroke_color = (255, 255, 255)
     draw.cube(win, vec3(300, -180, 100), vec3(300, 300, 300))

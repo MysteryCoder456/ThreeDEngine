@@ -15,15 +15,15 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
 
-    x -= 4
+    x -= 2
 
     win.fill(Options.background_color)
 
-    Options.stroke_width = 7
+    Options.stroke_width = 1
     Options.stroke_color = (255, 0, 0)
-    draw.cube(win, vec3(-1000, -700, 300), vec3(300, 300, 300), True)
+    draw.cube(win, vec3(-150 + -500, -150, x), vec3(300, 300, 300), True)
 
     Options.stroke_color = (255, 255, 255)
-    draw.cube(win, vec3(x, -500, 100), vec3(300, 300, 1200))
+    draw.cube(win, vec3(x, -400, 100), vec3(300, 300, 1200))
 
     pygame.display.update()

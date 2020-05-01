@@ -35,10 +35,23 @@ class Face:
     def get_projected_vertices(self):
         fov = Camera.fov
         offset = vec2(Camera.pos.x + Options.window_size.x / 2, Camera.pos.y + Options.window_size.y / 2)
-        return [vec2(fov * vertex.x / vertex.z, fov * vertex.y / vertex.z) + offset for vertex in self.vertices]
+        projections = []
+        for vertex in self.vertices:
+            if vertex.z >= 0:
+                try:
+                    projection = vec2(fov * vertex.x / vertex.z, fov * vertex.y / vertex.z) + offset
+                except ZeroDivisionError:
+                    projection = vec2(vertex.x, vertex.y) + offset
+            
+                projections.append(projection)
+
+        return projections
+
 
     def render(self, surface, outline=False):
-        if outline:
-            polygon(surface, Options.stroke_color, self.get_projected_vertices(), Options.stroke_width)
-        else:
-            polygon(surface, Options.stroke_color, self.get_projected_vertices())
+        projections = self.get_projected_vertices()
+        if len(projections) > 1:
+            if outline:
+                polygon(surface, Options.stroke_color, projections, Options.stroke_width)
+            else:
+                polygon(surface, Options.stroke_color, projections)

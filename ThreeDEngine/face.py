@@ -34,14 +34,20 @@ class Face:
     
     def get_projected_vertices(self):
         fov = Camera.fov
-        offset = vec2(Camera.pos.x + Options.window_size.x / 2, Camera.pos.y + Options.window_size.y / 2)
+        offset = vec2(Options.window_size.x / 2, Options.window_size.y / 2)
         projections = []
         for vertex in self.vertices:
-            if vertex.z >= 0:
+            if vertex.z >= Camera.pos.z:
                 try:
-                    projection = vec2(fov * vertex.x / vertex.z, fov * vertex.y / vertex.z) + offset
+                    projection = vec2(
+                        fov * (vertex.x - Camera.pos.x) / (vertex.z - Camera.pos.z),
+                        fov * (vertex.y - Camera.pos.y) / (vertex.z - Camera.pos.z)
+                    ) + offset
                 except ZeroDivisionError:
-                    projection = vec2(vertex.x, vertex.y) + offset
+                    projection = vec2(
+                        fov * (vertex.x - Camera.pos.x),
+                        fov * (vertex.y - Camera.pos.y)
+                    ) + offset
             
                 projections.append(projection)
 

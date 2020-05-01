@@ -1,15 +1,19 @@
-import pygame
 from glm import vec3
 from ThreeDEngine.options import Options
 from ThreeDEngine.camera import Camera
 from ThreeDEngine.face import Face
 
-def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline=False):
-    """Draw a cube.
+def cube(surface, pos: vec3, size: vec3, outline=False):
+    """
+    Draw a cube.
 
     Arguments:
+        surface {pygame.Surface} -- The pygame surface on which to render this shape
         pos {vec3} -- position of top left front corner
         size {vec3} -- size of cube
+        
+    Keyword Arguments:
+        outline {bool} -- whether to draw an outline or fill shape (default: {False})
     """
 
     size.z /= 10
@@ -40,3 +44,18 @@ def cube(surface: pygame.Surface, pos: vec3, size: vec3, outline=False):
 
     for face in faces:
         face.render(surface, outline)
+
+
+# def pyramid(surface, tip: vec3, height, base, outline=False):
+#     """
+#     Draw a pyramid
+
+#     Arguments:
+#         surface {pygame.Surface} -- The pygame surface on which to render this shape
+#         tip {vec3} -- position of the tip of the pyramid
+#         height {int} -- height of the pyramid
+#         base {int} -- length of the base of the pyramid
+
+#     Keyword Arguments:
+#         outline {bool} -- whether to draw an outline or fill shape (default: {False})
+#     """

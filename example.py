@@ -1,34 +1,28 @@
-import sys
-import pygame
+from random import randint
 from glm import vec3
+
+from ThreeDEngine.app import App
 from ThreeDEngine.options import Options
 from ThreeDEngine.camera import Camera
 from ThreeDEngine import draw
 
-win = pygame.display.set_mode([int(x) for x in Options.window_size.to_tuple()])
-pygame.display.set_caption("3D")
-clock = pygame.time.Clock()
 
-x = 500
+class Example(App):
+    def __init__(self, *args, **kwargs):
+        self.color = [randint(50, 255) for i in range(3)]
+        # Declare your variables before super().__init__() is called
+        
+        super().__init__(*args, **kwargs)
 
-while True:
-    clock.tick(Options.fps)
+    def update(self, dt):
+        Camera.pos.x += 100 * dt
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            sys.exit()
+    def render(self):
+        Options.stroke_width = 5
+        draw.cube(vec3(-500, 550, 400), vec3(300, 500, 300), self.color, True)
 
-    x -= 2
+        draw.cube(vec3(400, -380, 150), vec3(300, 300, 300), self.color)
 
-    Camera.pos.x += 60 * clock.get_time() / 1000
 
-    win.fill(Options.background_color)
-
-    Options.stroke_width = 1
-    Options.stroke_color = (255, 0, 0)
-    draw.cube(win, vec3(-150 + -500, 250, 500), vec3(300, 500, 300), True)
-
-    Options.stroke_color = (255, 255, 255)
-    draw.cube(win, vec3(300, -180, 100), vec3(300, 300, 300))
-
-    pygame.display.update()
+if __name__ == "__main__":
+    window = Example(*Options.window_size.to_tuple(), "3D iz kewl!")

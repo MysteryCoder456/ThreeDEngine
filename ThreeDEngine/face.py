@@ -1,9 +1,10 @@
+import pyglet
+from pyglet.gl import *
+from glm import vec2
+
 from ThreeDEngine.util import *
 from ThreeDEngine.camera import Camera
 from ThreeDEngine.options import Options
-
-from pygame.draw import polygon
-from glm import vec2
 
 
 class Face:
@@ -37,7 +38,7 @@ class Face:
         offset = vec2(Options.window_size.x / 2, Options.window_size.y / 2)
         projections = []
         for vertex in self.vertices:
-            if vertex.z >= Camera.pos.z:
+            if vertex.z >= Camera.pos.z + Options.render_dist[0] and vertex.z <= Camera.pos.z + Options.render_dist[1]:
                 try:
                     projection = vec2(
                         fov * (vertex.x - Camera.pos.x) / (vertex.z - Camera.pos.z),
@@ -49,15 +50,28 @@ class Face:
                         fov * (vertex.y - Camera.pos.y)
                     ) + offset
             
-                projections.append(projection)
+                projections.append(projection.x)
+                projections.append(projection.y)
 
         return projections
 
 
-    def render(self, surface, outline=False):
+    def render(self, color, outline):
         projections = self.get_projected_vertices()
-        if len(projections) > 2:
-            if outline:
-                polygon(surface, Options.stroke_color, projections, Options.stroke_width)
-            else:
-                polygon(surface, Options.stroke_color, projections)
+        length = len(projections)
+        c = []
+
+        for i in range(length // 2):
+            c.extend(color)
+        
+        vertex_list = pyglet.graphics.vertex_list(
+            length // 2,
+            ("v2f", projections),
+            ("c3B", c)
+        )
+
+        if outline:
+            glLineWidth(Options.stroke_width)
+            vertex_list.draw(GL_LINE_LOOP)
+        else:
+            vertex_list.draw(GL_POLYGON)

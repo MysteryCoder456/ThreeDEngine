@@ -3,7 +3,7 @@ from ThreeDEngine.options import Options
 from ThreeDEngine.camera import Camera
 from ThreeDEngine.face import Face
 
-def cube(pos: vec3, size: vec3, outline=False):
+def cube(pos: vec3, size: vec3, color, outline=False):
     """
     Draw a cube.
 
@@ -43,7 +43,7 @@ def cube(pos: vec3, size: vec3, outline=False):
     faces.sort(key=lambda face: face.get_center_pos()[1], reverse=True)
 
     for face in faces:
-        face.render(outline)
+        face.render(color, outline)
 
 
 # def pyramid(tip: vec3, height, base, outline=False):

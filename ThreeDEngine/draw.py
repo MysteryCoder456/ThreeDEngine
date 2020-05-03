@@ -8,9 +8,9 @@ def cube(pos: vec3, size: vec3, color, outline=False):
     Draw a cube.
 
     Arguments:
-        surface {pygame.Surface} -- The pygame surface on which to render this shape
         pos {vec3} -- position of top left front corner
         size {vec3} -- size of cube
+        color {tuple} -- color in (r, g, b) format
         
     Keyword Arguments:
         outline {bool} -- whether to draw an outline or fill shape (default: {False})

@@ -25,4 +25,4 @@ class Example(App):
 
 
 if __name__ == "__main__":
-    window = Example(*Options.window_size.to_tuple(), "3D iz kewl!")
+    window = Example(int(Options.window_size.x), int(Options.window_size.y), "3D iz kewl!")

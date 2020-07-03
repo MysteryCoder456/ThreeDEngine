@@ -11,7 +11,7 @@ def cube(pos: vec3, size: vec3, color, outline=False):
         pos {vec3} -- position of top left front corner
         size {vec3} -- size of cube
         color {tuple} -- color in (r, g, b) format
-        
+
     Keyword Arguments:
         outline {bool} -- whether to draw an outline or fill shape (default: {False})
     """
@@ -29,7 +29,7 @@ def cube(pos: vec3, size: vec3, color, outline=False):
     proj6 = vec3((pos.x + size.x), pos.y, (pos.z + size.z)) # top right
     proj7 = vec3(pos.x, (pos.y + size.y), (pos.z + size.z)) # bottom left
     proj8 = vec3((pos.x + size.x), (pos.y + size.y), (pos.z + size.z))  # bottom right
-    
+
     # Generate faces from vertices
     front_face = Face((proj1, proj2, proj4, proj3))
     left_face = Face((proj1, proj3, proj7, proj5))

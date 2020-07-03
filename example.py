@@ -11,7 +11,7 @@ class Example(App):
     def __init__(self, *args, **kwargs):
         self.color = [randint(50, 255) for i in range(3)]
         # Declare your variables before super().__init__() is called
-        
+
         super().__init__(*args, **kwargs)
 
     def update(self, dt):

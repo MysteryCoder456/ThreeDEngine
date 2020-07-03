@@ -13,11 +13,11 @@ class App(pyglet.window.Window):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         pyglet.clock.schedule_interval(self.schedule_callback, 1/Options.fps)
-        pyglet.app.run()
         glClearColor(*Options.background_color)
+        pyglet.app.run()
 
     def schedule_callback(self, dt):
         self.update(dt)
-        self.clear()
+        glClear(GL_COLOR_BUFFER_BIT)
         glLineWidth(Options.stroke_width)
         self.render()

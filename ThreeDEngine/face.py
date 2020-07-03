@@ -14,10 +14,10 @@ class Face:
     Arguments:
         vertices {list/tuple} -- list or tuple of the vertices of the face
     """
-    
+
     def __init__(self, vertices):
         self.vertices = vertices
-    
+
     def get_center_pos(self):
         x = []
         y = []
@@ -32,7 +32,7 @@ class Face:
         distance = dist3d(center, Camera.pos)
 
         return center, distance
-    
+
     def get_projected_vertices(self):
         fov = Camera.fov
         offset = vec2(Options.window_size.x / 2, Options.window_size.y / 2)
@@ -49,7 +49,7 @@ class Face:
                         fov * (vertex.x - Camera.pos.x),
                         fov * (vertex.y - Camera.pos.y)
                     ) + offset
-            
+
                 projections.append(projection.x)
                 projections.append(projection.y)
 
@@ -63,7 +63,7 @@ class Face:
 
         for i in range(length // 2):
             c.extend(color)
-        
+
         vertex_list = pyglet.graphics.vertex_list(
             length // 2,
             ("v2f", projections),
